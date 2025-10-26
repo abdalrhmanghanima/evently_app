@@ -1,0 +1,105 @@
+import 'package:evently_app/database/EventsDao.dart';
+import 'package:evently_app/database/model/Category.dart';
+import 'package:evently_app/extensions/context_extension.dart';
+import 'package:evently_app/ui/common/events_tabs.dart';
+import 'package:evently_app/ui/providers/AppAuthProvider.dart';
+import 'package:evently_app/ui/screens/home/tabs/home_tab/widgets/event_card.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+class HomeTab extends StatefulWidget {
+  HomeTab({super.key});
+
+  @override
+  State<HomeTab> createState() => _HomeTabState();
+}
+
+class _HomeTabState extends State<HomeTab> {
+
+  // @override
+  // void didUpdateWidget(covariant HomeTab oldWidget) {
+  //   super.didUpdateWidget(oldWidget);
+  //   if(widget.selectedCategory != oldWidget.selectedCategory){
+  //     setState(() {
+  //       print("old category -> ${oldWidget.selectedCategory.title}");
+  //       print("new category -> ${widget.selectedCategory.title}");
+  //     });
+  //   }
+  // }
+  int selectedCategoryIndex = 0;
+  List<Category> allCategories = Category.getCategories(includeAll: true);
+
+  @override
+  Widget build(BuildContext context) {
+    AppAuthProvider provider = Provider.of<AppAuthProvider>(context,listen: false);
+    return Column(
+
+      children: [
+        Container(
+          decoration: BoxDecoration(
+              color:context.appColors.primary ,
+              shape: BoxShape.rectangle,
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(24),
+                bottomRight: Radius.circular(24),
+              )
+          ),
+          child: EventsTabs(
+            Category.getCategories(includeAll: true),
+            selectedCategoryIndex,
+                (index,category) {
+              setState(() {
+                selectedCategoryIndex = index;
+              });
+            },),
+        ),
+        Expanded(
+          child: StreamBuilder(stream:
+          EventsDao.getRealTimeUpdatesForEvents(
+              allCategories[selectedCategoryIndex].id !=0 ? allCategories[selectedCategoryIndex].id// filter by category
+                :null// this is all tab
+          ),
+            builder: (context, snapshot) {
+            if(snapshot.connectionState == ConnectionState.waiting){
+              // loading
+              return Center(child: CircularProgressIndicator());
+            }else if(snapshot.hasError){
+              return Center(child: Text("Something went Wrong"),);
+            }
+            var events = snapshot.data?.toList();
+            events?.forEach((element) {
+              print(element.date);
+            },);
+            if(events==null ||events.isEmpty == true){
+              return Center(child: Text("No Events Found",
+              style: TextStyle(
+                color: Colors.black
+              ),),);
+            }
+            return  Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: ListView.separated(
+                 itemCount: events?.length ?? 0,
+                 separatorBuilder: (context, index) => SizedBox(height: 16),
+                 itemBuilder: (context, index) {
+                   var event  = events![index];
+                   var isFavorite = provider.isFavorite(event);
+                   event.isFavorite = isFavorite;
+                   return EventCard(
+                     events[index],
+                   );
+                 }
+               ),
+            );
+
+          },),
+          // child: ListView.separated(
+          //   itemCount: 10,
+          //   separatorBuilder: (context, index) => SizedBox(height: 16),
+          //   itemBuilder: (context, index) => EventCard(),
+          // ),
+        ),
+      ],
+    );
+  }
+}
