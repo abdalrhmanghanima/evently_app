@@ -9,6 +9,7 @@ Evently is a modern Flutter application that allows users to discover events, cr
 
 ---
 
+
 ## 🚀 Features
 - User Authentication (Login & Signup)
 - OnBoarding Flow
