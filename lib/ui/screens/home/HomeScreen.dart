@@ -3,6 +3,7 @@ import 'package:evently_app/routes.dart';
 import 'package:evently_app/ui/providers/AppAuthProvider.dart';
 import 'package:evently_app/ui/screens/home/tabs/fav/fav.dart';
 import 'package:evently_app/ui/screens/home/tabs/home_tab/home_tab.dart';
+import 'package:evently_app/ui/screens/home/tabs/map/maps_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -23,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     tabs = [
       HomeTab(),
-      HomeTab(),
+      GoogleMapsTab(),
       FavTab(),
       HomeTab(),
     ];

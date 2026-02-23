@@ -5,7 +5,7 @@
 # Evently App 🎉
 Event management mobile application built with Flutter.
 
-Evently is a modern Flutter application that allows users to discover events, create and manage their own events, with support for authentication, localization, theme switching, and persistent local storage.
+Evently is a modern Flutter application that allows users to discover events, create and manage their own events, with support for authentication, localization, theme switching, persistent local storage, real-time GPS tracking, and seamless Google Maps integration for interactive event navigation and location selection.
 
 ---
 
@@ -15,6 +15,8 @@ Evently is a modern Flutter application that allows users to discover events, cr
 - Browse Events
 - Event Details Screen
 - Add & Edit Events
+- Google Maps Integration
+- Real-time GPS Location Selection
 - Light & Dark Theme Support
 - Localization (Multi-language)
 - Persistent User Preferences
@@ -29,6 +31,8 @@ Evently is a modern Flutter application that allows users to discover events, cr
 - Shared Preferences
 - Provider (State Management)
 - Localization (l10n)
+- Google Maps SDK
+- GPS & Location Services
 - Clean Architecture Principles
 
 ---
@@ -43,6 +47,12 @@ Evently is a modern Flutter application that allows users to discover events, cr
 
 <p align="center">
   <img src="assets/readme/addEvent.png" width="200"/>
+</p>
+
+### 📍 Google Maps & GPS Integration
+
+<p align="center">
+  <img src="assets/readme/map.png" width="250"/>
 </p>
 
 ---
@@ -75,8 +85,3 @@ lib/
 
 Abdelrahman Ghanima
 Flutter Mobile Application Developer
-
-
-⭐ Show Your Support
-
-If you like this project, give it a ⭐ on GitHub!
